@@ -887,11 +887,9 @@ const decodeColumn = boardingPass => {
 
 const getSeatId = (row, column) => row * 8 + column;
 
-const seatIds = boardingPasses.map((pass, index) => {
-  const row = decodeRow(pass);
-  const column = decodeColumn(pass);
-  return getSeatId(row, column);
-});
+const seatIds = boardingPasses.map(
+  boardingPass => getSeatId(decodeRow(boardingPass), decodeColumn(boardingPass))
+);
 
 seatIds.sort((a,b) => a - b);
 console.log(`Maximum seat ID is: ${seatIds[seatIds.length - 1]}`);
