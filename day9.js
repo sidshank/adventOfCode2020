@@ -1002,12 +1002,14 @@ const portOutputString = `33
 const portNumbers = portOutputString.split('\n').map(str => Number(str));
 
 function isNumberSumOfAnyTwo(number, preamble) {
-  while (preamble.length >= 2) {
-    const pivotNumber = preamble.shift();
-    for (let i = 0; i < preamble.length; i++) {
-      if (number === pivotNumber + preamble[i]) {
-        return true;
-      }
+  let localPreamble = [...preamble];
+  while (localPreamble.length >= 2) {
+    const pivotNumber = localPreamble.shift();
+    const filteredPreamble = localPreamble.filter(
+      preambleNumber => (pivotNumber + preambleNumber) === number
+    );
+    if (filteredPreamble.length >= 1) {
+      return true;
     }
   }
   return false;
@@ -1015,8 +1017,8 @@ function isNumberSumOfAnyTwo(number, preamble) {
 
 let magicNumber = 0;
 for (let i = 25; i < portNumbers.length; i++) {
-  const hasProperty = isNumberSumOfAnyTwo(portNumbers[i], portNumbers.slice(i - 25, i));
-  if (!hasProperty) {
+  const preamble = portNumbers.slice(i - 25, i);
+  if (!isNumberSumOfAnyTwo(portNumbers[i], preamble)) {
     magicNumber = portNumbers[i];
     console.log(`First number that doesn't have XMAS property is ${magicNumber}`);
     break;
@@ -1044,7 +1046,6 @@ function findContinguousNumbersForSum(allNumbers, desiredSum) {
 }
 
 const contiguousNumbers = findContinguousNumbersForSum([...portNumbers], magicNumber);
-console.log(contiguousNumbers);
 const minNumber = Math.min(...contiguousNumbers);
 const maxNumber = Math.max(...contiguousNumbers);
 console.log(`Sum of min and max of contiguous numbers that sum to: ${magicNumber}, is ${minNumber + maxNumber}`);
