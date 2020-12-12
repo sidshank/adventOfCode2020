@@ -151,7 +151,7 @@ function getPossibleCombinations(numberOfRunCounts) {
   const possibleCombinations = [];
   const lastThreeResponses = [0, 0, 0];
   for (let i = 0; i <= numberOfRunCounts; i++) {
-    const possibleCombination = Math.max(1, lastThreeResponses.reduce((acc, b) => acc + b, 0));
+    const possibleCombination = Math.max(1, lastThreeResponses.reduce((acc, response) => acc + response, 0));
     lastThreeResponses.shift();
     lastThreeResponses.push(possibleCombination);
     possibleCombinations.push(possibleCombination);
